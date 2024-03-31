@@ -1,4 +1,5 @@
 package com.zep.companyms.companies.impl;
+
 import com.zep.companyms.companies.Company;
 import com.zep.companyms.companies.CompanyRepository;
 import com.zep.companyms.companies.CompanyService;
@@ -17,27 +18,25 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<Company> getAllCompanies() {
-     return companyRepository.findAll();
+        return companyRepository.findAll();
     }
 
     @Override
     public boolean updateCompany(Company company, Long id) {
-        Optional<Company> companyOptional=companyRepository.findById(id);
+        Optional<Company> companyOptional = companyRepository.findById(id);
 
-            if (companyOptional.isPresent()) {
-                Company companyToUpdate = companyOptional.get();
+        if (companyOptional.isPresent()) {
+            Company companyToUpdate = companyOptional.get();
 
+            companyToUpdate.setDescription(company.getDescription());
+            companyToUpdate.setName(company.getName());
 
-                    companyToUpdate.setDescription(company.getDescription());
-                    companyToUpdate.setName(company.getName());
-
-
-                    companyRepository.save(companyToUpdate);
-                    return true;
-                }else{
-
-            return false;}
+            companyRepository.save(companyToUpdate);
+            return true;
+        } else {
+            return false;
         }
+    }
 
     @Override
     public void createCompany(Company company) {
@@ -51,9 +50,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public boolean deleteCompany(Long id) {
-        if(companyRepository.existsById(id))
-        { companyRepository.deleteById(id);return true;}else
-        {return false;}
+        if (companyRepository.existsById(id)) {
+            companyRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -61,4 +63,3 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.getCompanyById(companyId);
     }
 }
-
